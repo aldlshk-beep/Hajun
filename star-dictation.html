@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="ko"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>받아쓰기 스타</title>
+<link href="https://fonts.googleapis.com/css2?family=Jua&display=swap" rel="stylesheet">
+<style>
+:root{--page:#e9ecff;--ink:#14163a;--card:#fff;--mute:#5b5f8f;--brand:#2b3bff;--pink:#ff3d81;--sun:#ffd23f;--mint:#19c58f;--line:#14163a;--dash:#cfd3ff;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--page:#10122e;--ink:#f3f4ff;--card:#1c2058;--mute:#a9adff;--line:#050618;--dash:#2c3180}}
+:root[data-theme="dark"]{--page:#10122e;--ink:#f3f4ff;--card:#1c2058;--mute:#a9adff;--line:#050618;--dash:#2c3180}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+*{box-sizing:border-box}
+body{margin:0;min-height:100vh;background:var(--page);color:var(--ink);font-family:"Jua","Noto Sans KR","Malgun Gothic",system-ui,sans-serif;font-weight:400;line-height:1.35}
+button,input,textarea{font-family:inherit;font-weight:400}
+#app{max-width:480px;margin:0 auto;padding:0 16px 28px}
+.hd{margin:0 -16px 18px;padding:22px 20px 20px;background:var(--brand);color:#fff;border-bottom:4px solid var(--line)}
+.hd h1{margin:0;font-size:34px;font-weight:400;letter-spacing:-.5px}
+.hd p{margin:4px 0 0;font-size:16px;color:#d7dbff}
+.t{display:flex;align-items:center;gap:14px;width:100%;text-align:left;padding:16px;margin:0 0 14px;border:3px solid var(--line);border-radius:24px;box-shadow:0 6px 0 var(--line);color:#14163a;cursor:pointer}
+.t:active,.btn:active{transform:translateY(5px);box-shadow:0 1px 0 var(--line)}
+.t .ic{flex:none;width:56px;height:56px;border-radius:50%;background:#fff;border:3px solid var(--line);display:grid;place-items:center;font-size:28px}
+.t b{display:block;font-size:26px;font-weight:400}.t span{font-size:15px;opacity:.8}
+.t.main{background:var(--pink);color:#fff;padding:22px 16px}.t.main b{font-size:30px}
+.t.mint{background:var(--mint)}.t.sun{background:var(--sun)}
+.chip{display:inline-block;margin:0 0 14px;padding:6px 14px;border-radius:99px;background:var(--card);border:3px solid var(--line);font-size:16px;color:var(--mute)}
+.prog{display:flex;gap:5px;margin:0 0 6px}.prog i{flex:1;height:10px;border-radius:6px;background:var(--dash)}
+.prog i.ok{background:var(--mint)}.prog i.bad{background:var(--pink)}.prog i.cur{background:var(--sun);outline:2px solid var(--line)}
+.meta{display:flex;justify-content:space-between;font-size:17px;color:var(--mute);margin:0 0 14px}
+.stage{display:flex;align-items:center;gap:16px;margin:0 0 18px}
+.play{flex:none;width:92px;height:92px;border-radius:50%;border:3px solid var(--line);background:var(--pink);box-shadow:0 6px 0 var(--line);display:grid;place-items:center;cursor:pointer}
+.play:active{transform:translateY(5px);box-shadow:0 1px 0 var(--line)}
+.play svg{width:38px;height:38px;margin-left:5px}
+.slow{padding:10px 16px;border-radius:99px;border:3px solid var(--line);background:var(--card);color:var(--ink);font-size:17px;cursor:pointer}
+.stage small{display:block;font-size:15px;color:var(--mute);margin-top:8px}
+.tiles{display:flex;flex-wrap:wrap;gap:6px;align-items:center;margin:0 0 14px;min-height:54px}
+.tl{width:38px;height:48px;border-radius:11px;border:3px solid var(--line);background:var(--card);display:grid;place-items:center;font-size:24px;color:var(--ink)}
+.tl.on{background:var(--sun);color:#14163a}
+.win .tl{background:var(--mint);color:#14163a;animation:pop .35s ease both}
+.lose .tl{background:#ffc2d6;color:#14163a}
+.sp{width:12px}.pn{font-size:26px;align-self:flex-end}
+@keyframes pop{0%{transform:scale(.7)}70%{transform:scale(1.12)}100%{transform:scale(1)}}
+@media (prefers-reduced-motion:reduce){.win .tl{animation:none}}
+.msg{min-height:30px;font-size:20px;margin:0 0 10px}
+input,textarea{width:100%;font-size:22px;padding:14px 16px;border:3px solid var(--line);border-radius:18px;background:var(--card);color:var(--ink)}
+input:focus,textarea:focus,button:focus-visible{outline:3px solid var(--brand);outline-offset:2px}
+textarea{font-size:17px;height:290px;line-height:1.6}
+.row{display:flex;gap:12px;margin:14px 0}
+.btn{flex:1;padding:16px;border-radius:20px;border:3px solid var(--line);box-shadow:0 5px 0 var(--line);font-size:21px;color:#14163a;background:var(--card);cursor:pointer}
+.btn.go{flex:2;background:var(--brand);color:#fff}.btn.sun{background:var(--sun)}.btn.pk{background:var(--pink);color:#fff}.btn.mt{background:var(--mint)}
+.li{display:flex;align-items:center;gap:12px;width:100%;text-align:left;padding:12px 14px;margin:0 0 10px;border:3px solid var(--line);border-radius:18px;background:var(--card);color:var(--ink);font-size:19px;cursor:pointer}
+.li .d{flex:none;width:34px;height:34px;border-radius:50%;background:var(--pink);display:grid;place-items:center}
+.li .d svg{width:14px;height:14px;margin-left:2px}
+.res{background:var(--pink);color:#fff;border:3px solid var(--line);border-radius:26px;box-shadow:0 6px 0 var(--line);padding:24px 20px;margin:0 0 20px}
+.res h2{margin:0;font-size:40px;font-weight:400}.res p{margin:6px 0 0;font-size:22px}
+.cmp{font-size:19px;line-height:1.9;margin:4px 0;word-break:keep-all}.cmp span{display:block;font-size:14px;color:var(--mute);line-height:1.4}
+mark{border-radius:4px;padding:0 2px;color:#14163a}mark.a{background:#ffc2d6}mark.b{background:var(--sun)}
+.sg{text-decoration:none;color:var(--mute);font-size:14px;margin:0 3px}.sg.a{background:#ffc2d6;color:#b0103a;border-radius:4px}.sg.b{background:var(--sun);color:#14163a;border-radius:4px}
+.rv{background:var(--card);border:3px solid var(--line);border-radius:20px;padding:10px 16px;margin:0 0 18px}.rv hr{border:0;border-top:2px dashed var(--dash);margin:10px 0}
+.lvs{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:0 0 14px}.lv{padding:12px 0;border:3px solid var(--line);border-radius:16px;background:var(--card);color:var(--ink);font-size:20px;cursor:pointer;box-shadow:0 4px 0 var(--line)}.lv.on{background:var(--sun);color:#14163a}
+.help{display:block;margin:6px auto 0;background:none;border:0;color:var(--mute);text-decoration:underline;font-size:16px;cursor:pointer;padding:8px}
+.vh{background:var(--card);border:3px solid var(--line);border-radius:18px;padding:12px 16px;margin-top:12px;font-size:17px;line-height:1.6}.vh .btn{display:block;width:100%;flex:none;margin:10px 0 0;font-size:17px;padding:10px}
+.hint{font-size:16px;color:var(--mute);margin:0 0 12px;line-height:1.6}
+</style></head><body><div id="app">
+<div class="hd"><h1>받아쓰기 스타</h1><p>듣고, 쓰고, 팬을 모아요</p></div><div id="v"></div></div>
+<script>
+var LV={
+11:["저 풀은 이름이 뭐예요?","공익 광고를 보고","초록색 비닐봉지가 땅에","내려가는 건 정말 쉬워요.","이제 아침 식사 시간이에요.","꿈 때문에 마음이 뒤숭숭한","음식을 남기지 않고","세 번이나 나누어 돌려요.","물을 계속 튼 채로","무언가가 차오르기 시작했어요."],
+12:["양쪽 두 볼을 세게 꼬집어","말도 안 돼. 정말 생생했는데","철이의 행동이 시작됩니다.","국립중앙박물관 어린이박물관","누리집에 올려진 게시물","등장인물의 표정을 보며","매체가 알맞은 내용을 담고","친숙한 매체와 매체 자료를","자신의 경험과 연결 지어","선생님을 만났습니다."],
+13:["그에 따른 책임도 져야 해요.","책임지고 보살필 누군가가","“전 꽃을 심고 싶어요!”","배설물을 밟을 수도 있다.","비닐봉지와 집게 같은 도구를","목줄을 채워야 한다.","위협적인 행동이 될 수 있다.","반려견의 출입이 금지된 곳","다른 사람에게 큰 피해를","미움을 받거나 공포의 대상이"],
+14:["에티켓을 꼭 지키도록 하자.","혼자 하기 어려울 텐데.","고구마 심어도 돼요?","아침에 다 같이 운동장에서","좋은 점이 많기 때문이에요.","심고서 돌보지 않으면","학교 뒤뜰을 꾸며 보라고","기분이 상쾌해지는 것을","달리면 더 건강해져요.","더 오래, 더 빠르게"],
+15:["쉬는 시간만 되면 우리 반은","은방울이 울상을 지었습니다.","눈 내린 등굣길","쌓인 눈을 밟을 때마다","뚱뚱하게 옷 껴입고","“설마 무슨 일이…….”","뒤따라오는 친구들도","씰룩씰룩 궁둥이 흔들며 걷는","한 줄로 선 살찐 오리들","눈 쌓인 운동장은 호수"],
+16:["낯선 손님에게는 함부로 문을","밤사이 눈이 내려 새하얀","눈 위에 나란히 예쁜 발자국","함께 걸어 좋은 길","칭얼대기 시작했습니다.","낯선 덩치가 서 있었습니다.","무서워 죽는 줄 알았어.","놀라서 마주 보았습니다.","하늘이 어둑해지면서","빈집 앞에서 놀고 있었는데."]};
+var DEF=LV[11];
+var W=DEF,V=document.getElementById("v"),T={};
+var PL='<svg viewBox="0 0 24 24"><path d="M5 3l16 9-16 9z" fill="#fff" stroke="#14163a" stroke-width="2" stroke-linejoin="round"/></svg>';
+var CUS=[],LVN=11;try{var s=JSON.parse(localStorage.getItem("star_dict")||"null");if(s&&s.length)CUS=s;var q=localStorage.getItem("star_lv");if(q!==null)LVN=+q}catch(e){}
+function setLv(n){LVN=n;W=n===0?CUS:LV[n];try{localStorage.setItem("star_lv",n)}catch(e){}}
+if(LVN===0&&!CUS.length)LVN=11;if(!LV[LVN]&&LVN!==0)LVN=11;setLv(LVN);
+function esc(x){return String(x).replace(/[&<>"]/g,function(c){return{"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]})}
+function say(t,r){try{speechSynthesis.cancel();var u=new SpeechSynthesisUtterance(t);u.lang="ko-KR";u.rate=r||.8;speechSynthesis.speak(u)}catch(e){}}
+function shuf(a){a=a.slice();for(var i=a.length-1;i>0;i--){var j=Math.floor(Math.random()*(i+1)),t=a[i];a[i]=a[j];a[j]=t}return a}
+function lvName(n){return n===0?"내 문장":n+"급"}
+function home(){var p="";[11,12,13,14,15,16].concat(CUS.length?[0]:[]).forEach(function(n){p+='<button class="lv'+(n===LVN?' on':'')+'" onclick="setLv('+n+');home()">'+lvName(n)+'</button>'});
+V.innerHTML='<p class="hint">풀고 싶은 급수를 골라요</p><div class="lvs">'+p+'</div><div class="chip">'+lvName(LVN)+' 문장 '+W.length+'개</div><button class="t main" onclick="startTest(W)"><div class="ic">🎤</div><div><b>무대 오르기</b><span>듣고 써서 팬을 모아요</span></div></button><button class="t mint" onclick="study()"><div class="ic">🎧</div><div><b>연습하기</b><span>문장을 눌러 들어 봐요</span></div></button><button class="t sun" onclick="edit()"><div class="ic">✏️</div><div><b>내 문장 만들기</b><span>직접 문장을 붙여넣어요</span></div></button><button class="help" onclick="vhelp()">소리가 안 나요?</button>'}
+function study(){var h='<p class="hint">문장을 누르면 읽어줘요. 띄어쓰기와 맞춤법도 잘 보면서 따라 써 봐요.</p>';W.forEach(function(w,i){h+='<button class="li" onclick="say(W['+i+'])"><span class="d">'+PL+'</span>'+esc(w)+'</button>'});V.innerHTML=h+'<div class="row"><button class="btn" onclick="home()">처음으로</button></div>'}
+function startTest(list){T={q:shuf(list),i:0,wrong:[],right:0,tries:0,h:0,done:false,res:[],mine:[]};ask()}
+function tiles(full){var s=T.q[T.i],o="",n=0;for(var k=0;k<s.length;k++){var ch=s[k],sh=full||(n>0&&n<=T.h);if(/\s/.test(ch)){if(sh)o+='<i class="sp"></i>'}else if(/[.,!?~“”"‘’'…]/.test(ch)){if(sh)o+='<b class="pn">'+ch+'</b>'}else{var on=full||n<T.h;n++;o+='<span class="tl'+(on&&!full?' on':'')+'">'+(on?esc(ch):"")+'</span>'}}return o}
+function prog(){var o="";for(var k=0;k<T.q.length;k++)o+='<i class="'+(T.res[k]||(k===T.i?"cur":""))+'"></i>';return o}
+function ask(){if(T.i>=T.q.length)return fin();T.tries=0;T.h=0;T.done=false;
+V.innerHTML='<div class="prog">'+prog()+'</div><div class="meta"><span>'+(T.i+1)+' / '+T.q.length+'번째</span><span>팬 '+T.right+'명</span></div><div class="stage"><button class="play" aria-label="문장 듣기" onclick="say(T.q[T.i])">'+PL+'</button><div><button class="slow" onclick="say(T.q[T.i],.5)">천천히 듣기</button><small>글자, 띄어쓰기, 마침표까지 맞게 써요</small></div></div><div class="tiles" id="tl">'+tiles(false)+'</div><div class="msg" id="msg"></div><input id="in" autocomplete="off" autocorrect="off" autocapitalize="none" spellcheck="false" placeholder="들은 대로 써 봐요"><div class="row"><button class="btn sun" onclick="hint()">힌트</button><button class="btn go" id="ok" onclick="check()">확인</button></div><button class="help" onclick="vhelp()">소리가 안 나요?</button>';
+var inp=document.getElementById("in");inp.addEventListener("keydown",function(e){if(e.key==="Enter")check()});say(T.q[T.i])}
+function hint(){if(T.done)return;var n=T.q[T.i].replace(/[\s.,!?~“”"‘’'…]/g,"").length;if(T.h<n)T.h++;document.getElementById("tl").innerHTML=tiles(false)}
+function cn(x){return x.replace(/[“”"‘’']/g,"").replace(/[.…]{2,}|…/g,".")}
+function sp0(x){return x.trim().replace(/\s+/g," ")}
+function nz(x){return cn(x).replace(/[\s.,!?~]/g,"")}
+function nsp(x){return sp0(cn(x)).replace(/[.,!?~]/g,"")}
+function kind(a,w){if(nz(a)!==nz(w))return"글자";if(nsp(a)!==nsp(w))return"띄어쓰기";return"문장부호"}
+function cc(ch,bad,k){return ch===" "?'<u class="sg'+(bad?" "+k:"")+'">∨</u>':(bad?'<mark class="'+k+'">'+esc(ch)+'</mark>':esc(ch))}
+function diff(a,b){var n=a.length,m=b.length,d=[],i,j;for(i=0;i<=n;i++){d[i]=[];for(j=0;j<=m;j++)d[i][j]=0}
+for(i=n-1;i>=0;i--)for(j=m-1;j>=0;j--)d[i][j]=a[i]===b[j]?d[i+1][j+1]+1:Math.max(d[i+1][j],d[i][j+1]);
+var A="",B="";i=0;j=0;while(i<n&&j<m){if(a[i]===b[j]){A+=cc(a[i]);B+=cc(b[j]);i++;j++}else if(d[i+1][j]>=d[i][j+1]){A+=cc(a[i],1,"a");i++}else{B+=cc(b[j],1,"b");j++}}
+while(i<n)A+=cc(a[i++],1,"a");while(j<m)B+=cc(b[j++],1,"b");return[A,B]}
+function cmp(a,w){var d=diff(a,w);return'<div class="cmp"><span>내가 쓴 것</span>'+d[0]+'</div><div class="cmp"><span>정답 (∨는 띄어쓰기)</span>'+d[1]+'</div>'}
+function paint(c){var t=document.getElementById("tl");t.className="tiles "+c;t.innerHTML=tiles(true)}
+function check(){var ok=document.getElementById("ok");if(T.done){T.i++;return ask()}
+var inp=document.getElementById("in"),m=document.getElementById("msg"),w=T.q[T.i],a=inp.value;if(!a.trim())return;
+if(sp0(cn(a))===sp0(cn(w))){T.right++;T.res[T.i]="ok";T.done=true;paint("win");inp.disabled=true;m.style.color="var(--mint)";m.textContent="정답! 글자도 띄어쓰기도 완벽해요";ok.textContent="다음";setTimeout(function(){if(T.done&&T.q[T.i]===w){T.i++;ask()}},1400)}
+else{T.tries++;var k=kind(a,w);if(T.tries>=2){T.done=true;T.res[T.i]="bad";T.wrong.push(w);T.mine.push(sp0(a));paint("lose");m.style.color="var(--ink)";m.innerHTML=cmp(sp0(a),w);inp.disabled=true;ok.textContent="다음"}else{m.style.color="var(--pink)";m.textContent=k==="글자"?"글자(맞춤법)가 달라요. 다시 들어 봐요":k==="띄어쓰기"?"글자는 맞아요! 띄어쓰기를 다시 봐요":"글자와 띄어쓰기는 맞아요! 마침표 같은 문장부호를 확인해요";inp.focus()}}}
+function fin(){var n=T.q.length,r=T.right,t=r===n?"슈퍼스타!":(r>=n*.7?"인기 스타!":"연습생"),rv="";T.wrong.forEach(function(w,i){rv+=cmp(T.mine[i],w)+(i<T.wrong.length-1?"<hr>":"")});
+V.innerHTML='<div class="res"><h2>'+t+'</h2><p>팬 '+r+'명 / '+n+'문장</p></div>'+(T.wrong.length?'<p class="hint">틀린 곳을 눈으로 확인해요</p><div class="rv">'+rv+'</div><button class="t main" onclick="startTest(T.wrong)" style="background:var(--sun);color:#14163a"><div><b>틀린 것만 다시</b><span>'+T.wrong.length+'문장</span></div></button>':'')+'<div class="row"><button class="btn mt" onclick="startTest(W)">처음부터</button><button class="btn" onclick="home()">처음으로</button></div>'}
+function parse(s){return s.split(/\n/).map(function(l){return l.replace(/^\s*\d+\s*[.)]\s*/,"").trim()}).filter(Boolean)}
+function persist(){try{localStorage.setItem("star_dict",JSON.stringify(CUS))}catch(e){}}
+function edit(){V.innerHTML='<p class="hint">한 줄에 문장 하나씩 붙여넣어요.<br>예: 오늘은 날씨가 맑아요.</p><textarea id="ta">'+esc(CUS.join("\n"))+'</textarea><div class="msg" id="em" style="margin-top:10px"></div><div class="row"><button class="btn mt" onclick="save()">저장하기</button></div><div class="row"><button class="btn" onclick="CUS=[];persist();setLv(11);edit()">내 문장 지우기</button><button class="btn" onclick="home()">처음으로</button></div>'}
+function save(){var p=parse(document.getElementById("ta").value),m=document.getElementById("em");if(!p.length){m.style.color="var(--pink)";m.textContent="문장이 없어요. 한 줄에 하나씩 써 주세요.";return}CUS=p;persist();setLv(0);m.style.color="var(--mint)";m.textContent=p.length+"개 저장했어요. 처음으로 가서 내 문장으로 풀어요"}
+function vhelp(){var ok=!!window.speechSynthesis,vs=ok?speechSynthesis.getVoices():[],ko=vs.some(function(v){return /^ko/i.test(v.lang)});
+var m=!ok?"이 브라우저는 소리 읽기를 지원하지 않아요. 크롬이나 삼성 인터넷으로 열어 보세요.":(vs.length&&!ko)?"한국어 음성이 없어요. 폰 설정의 텍스트 음성 변환에서 한국어 음성 데이터를 설치해 주세요.":"미디어 볼륨을 올리고, 폰 설정의 텍스트 음성 변환에서 미리 듣기가 되는지 확인해 주세요.";
+var d=document.getElementById("vh");if(!d){d=document.createElement("div");d.id="vh";d.className="vh";V.appendChild(d)}
+d.innerHTML='<b>소리가 안 나요?</b><br>'+m+'<br>그래도 안 되면 부모님이 문장을 천천히 불러 주세요.'+(T.q&&document.getElementById("tl")&&!T.done?'<button class="btn sun" onclick="peek()">부모님용: 문장 보기</button>':'')}
+function peek(){var d=document.getElementById("vh");d.innerHTML+='<div class="cmp"><span>부모님 읽기용</span>'+esc(T.q[T.i])+'</div>'}
+home();
+</script></body></html>
